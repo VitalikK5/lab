@@ -1,0 +1,52 @@
+import pygame
+import sys
+
+# Ініціалізація Pygame
+pygame.init()
+
+# Визначення параметрів вікна
+WIDTH, HEIGHT = 800, 600
+screen = pygame.display.set_mode((WIDTH, HEIGHT))
+pygame.display.set_caption("Simple Game")
+
+# Визначення кольорів
+WHITE = (255, 255, 255)
+RED = (255, 0, 0)
+
+# Визначення параметрів персонажа
+player_size = 50
+player_pos = [WIDTH // 2, HEIGHT // 2]
+player_speed = 5
+
+# Головний цикл подій
+running = True
+while running:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            pygame.quit()
+            sys.exit()
+
+    # Отримання списку натиснутих клавіш
+    keys = pygame.key.get_pressed()
+
+    # Рух персонажа за допомогою клавіш стрілок
+    if keys[pygame.K_LEFT] and player_pos[0] > 0:
+        player_pos[0] -= player_speed
+    if keys[pygame.K_RIGHT] and player_pos[0] < WIDTH - player_size:
+        player_pos[0] += player_speed
+    if keys[pygame.K_UP] and player_pos[1] > 0:
+        player_pos[1] -= player_speed
+    if keys[pygame.K_DOWN] and player_pos[1] < HEIGHT - player_size:
+        player_pos[1] += player_speed
+
+    # Очищення екрану
+    screen.fill(WHITE)
+
+    # Малювання персонажа
+    pygame.draw.rect(screen, RED, (player_pos[0], player_pos[1], player_size, player_size))
+
+    # Оновлення екрану
+    pygame.display.flip()
+
+    # Обмеження FPS
+    pygame.time.Clock().tick(30)
